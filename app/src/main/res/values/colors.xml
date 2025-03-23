@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary brand colors -->
+    <color name="atomic_blue_200">#90CAF9</color>
+    <color name="atomic_blue_500">#2196F3</color>
+    <color name="atomic_blue_700">#1976D2</color>
+
+    <!-- Secondary brand colors -->
+    <color name="atomic_green_200">#A5D6A7</color>
+    <color name="atomic_green_500">#4CAF50</color>
+    <color name="atomic_green_700">#388E3C</color>
+
+    <!-- Neutral colors -->
+    <color name="atomic_gray_50">#FAFAFA</color>
+    <color name="atomic_gray_100">#F5F5F5</color>
+    <color name="atomic_gray_200">#EEEEEE</color>
+    <color name="atomic_gray_300">#E0E0E0</color>
+    <color name="atomic_gray_900">#212121</color>
+
+    <!-- Semantic colors -->
+    <color name="streak_gold">#FFC107</color>
+    <color name="achievement_purple">#9C27B0</color>
+    <color name="level_up_yellow">#FFEB3B</color>
+
+    <!-- System colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

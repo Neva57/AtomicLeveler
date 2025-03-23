@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AtomicLeveler" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand colors -->
+        <item name="colorPrimary">@color/atomic_blue_500</item>
+        <item name="colorPrimaryVariant">@color/atomic_blue_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand colors -->
+        <item name="colorSecondary">@color/atomic_green_500</item>
+        <item name="colorSecondaryVariant">@color/atomic_green_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+
+        <!-- Custom font -->
+        <item name="fontFamily">sans-serif</item>
+
+        <!-- Other customizations -->
+        <item name="materialCardViewStyle">@style/Widget.AtomicLeveler.CardView</item>
+        <item name="materialButtonStyle">@style/Widget.AtomicLeveler.Button</item>
+    </style>
+
+    <!-- Custom styles -->
+    <style name="Widget.AtomicLeveler.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+    <style name="Widget.AtomicLeveler.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.AtomicLeveler.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <!-- Text Appearance Styles -->
+    <style name="TextAppearance.AtomicLeveler.Headline" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/atomic_gray_900</item>
+    </style>
+
+    <style name="TextAppearance.AtomicLeveler.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/atomic_gray_900</item>
+    </style>
+
+    <style name="TextAppearance.AtomicLeveler.Body" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/atomic_gray_900</item>
+    </style>
+</resources>

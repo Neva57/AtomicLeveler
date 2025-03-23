@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atomic Leveler</string>
+
+    <!-- Navigation -->
+    <string name="habits">Habits</string>
+    <string name="achievements">Achievements</string>
+    <string name="profile">Profile</string>
+
+    <!-- Habits -->
+    <string name="your_habits">Your Habits</string>
+    <string name="add_habit">Add Habit</string>
+    <string name="habit_details">Habit Details</string>
+    <string name="habit_name">Habit Name</string>
+    <string name="habit_description">Description (Why is this important to you?)</string>
+    <string name="frequency">Frequency</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="save_habit">Save Habit</string>
+    <string name="delete_habit">Delete Habit</string>
+    <string name="complete">Complete</string>
+    <string name="streak_format">Streak: %d days</string>
+    <string name="no_habits_yet">You haven\'t created any habits yet.\nTap the + button to get started!</string>
+    <string name="habit_completed">Habit Completed!</string>
+    <string name="habit_completion_message">Great job completing \"%s\"! Keep up the good work.</string>
+    <string name="delete_habit_confirmation">Are you sure you want to delete this habit? This action cannot be undone.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Achievements -->
+    <string name="your_achievements">Your Achievements</string>
+    <string name="achievement_icon">Achievement Icon</string>
+    <string name="xp_format">+%d XP</string>
+    <string name="achievement_unlocked">Achievement Unlocked!</string>
+
+    <!-- Profile -->
+    <string name="profile_avatar">Profile Avatar</string>
+    <string name="level_format">Level %d</string>
+    <string name="xp_to_next_level">%d/%d XP to next level</string>
+    <string name="stats">Stats</string>
+    <string name="total_habits">Total Habits</string>
+    <string name="total_completions">Total Completions</string>
+    <string name="best_streak">Best Streak</string>
+    <string name="achievements_unlocked">Achievements Unlocked</string>
+    <string name="days_format">%d days</string>
+    <string name="achievements_count_format">%d/%d</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <!-- Level Up -->
+    <string name="level_up">Level Up</string>
+    <string name="level_up_congrats">Congratulations!</string>
+    <string name="new_level_format">You\'ve reached Level %d!</string>
+    <string name="level_up_message">Your dedication to building better habits is paying off. Keep going!</string>
+    <string name="continue_growing">Continue Growing</string>
+
+    <!-- Quotes (from James Clear\'s Atomic Habits) -->
+    <string-array name="atomic_quotes">
+        <item>You do not rise to the level of your goals. You fall to the level of your systems.</item>
+        <item>Every action you take is a vote for the type of person you wish to become.</item>
+        <item>Habits are the compound interest of self-improvement.</item>
+        <item>The most effective way to change your habits is to focus not on what you want to achieve, but on who you wish to become.</item>
+        <item>You should be far more concerned with your current trajectory than with your current results.</item>
+        <item>Your habits shape your identity, and your identity shapes your habits.</item>
+        <item>The most practical way to change who you are is to change what you do.</item>
+        <item>It\'s easy to overestimate the importance of one defining moment and underestimate the value of making small improvements on a daily basis.</item>
+    </string-array>
+
+    <!-- Onboarding -->
+    <string name="welcome_to_atomic_leveler">Welcome to Atomic Leveler</string>
+    <string name="onboarding_message">Build better habits, unlock achievements, and level up your life with the principles of Atomic Habits.</string>
+    <string name="get_started">Get Started</string>
+    <string name="your_name">Your Name</string>
+</resources>
