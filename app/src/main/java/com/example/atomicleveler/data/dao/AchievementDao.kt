@@ -3,17 +3,20 @@ package com.example.atomicleveler.data.dao
 import androidx.room.*
 import com.example.atomicleveler.data.models.Achievement
 
+/**
+ * Data Access Object for the Achievement table
+ */
 @Dao
 interface AchievementDao {
     @Query("SELECT * FROM achievement_table ORDER BY id ASC")
-    suspend fun getAllAchievements(): List<Achievement>
+    fun getAllAchievements(): List<Achievement>  // Remove suspend
 
     @Query("SELECT * FROM achievement_table WHERE isUnlocked = 1")
-    suspend fun getUnlockedAchievements(): List<Achievement>
+    fun getUnlockedAchievements(): List<Achievement>  // Remove suspend
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(achievement: Achievement): Long
+    @Insert
+    fun insert(achievement: Achievement): Long  // Remove suspend
 
     @Update
-    suspend fun update(achievement: Achievement)
+    fun update(achievement: Achievement): Int  // Remove suspend
 }

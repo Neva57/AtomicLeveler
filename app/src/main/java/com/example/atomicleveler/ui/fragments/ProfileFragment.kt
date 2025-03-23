@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.atomicleveler.R
 import com.example.atomicleveler.data.models.UserProfile
 import com.example.atomicleveler.databinding.FragmentProfileBinding
+import com.example.atomicleveler.ui.viewmodels.AchievementViewModel
 import com.example.atomicleveler.ui.viewmodels.HabitViewModel
 import com.example.atomicleveler.ui.viewmodels.UserProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -21,6 +22,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var habitViewModel: HabitViewModel
     private lateinit var profileViewModel: UserProfileViewModel
+    private lateinit var achievementViewModel: AchievementViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +39,7 @@ class ProfileFragment : Fragment() {
         // Initialize ViewModels
         habitViewModel = ViewModelProvider(requireActivity()).get(HabitViewModel::class.java)
         profileViewModel = ViewModelProvider(requireActivity()).get(UserProfileViewModel::class.java)
+        achievementViewModel = ViewModelProvider(requireActivity()).get(AchievementViewModel::class.java)
 
         // Observe user profile
         profileViewModel.userProfile.observe(viewLifecycleOwner) { profile ->
@@ -46,6 +49,14 @@ class ProfileFragment : Fragment() {
         // Observe habits for stats
         habitViewModel.allHabits.observe(viewLifecycleOwner) { habits ->
             updateStats(habits.size)
+        }
+
+        // Observe achievements
+        achievementViewModel.allAchievements.observe(viewLifecycleOwner) { achievements ->
+            val unlockedCount = achievements.count { it.isUnlocked }
+            val totalCount = achievements.size
+            binding.textViewAchievementsUnlocked.text =
+                getString(R.string.achievements_count_format, unlockedCount, totalCount)
         }
 
         // Set up button click listeners
@@ -59,7 +70,7 @@ class ProfileFragment : Fragment() {
 
         // Update UI with profile data
         binding.textViewUserName.text = profile.name
-        binding.textViewLevel.text = getString(R.string.level_x, profile.level)
+        binding.textViewLevel.text = getString(R.string.level_format, profile.level)
 
         // Calculate XP progress
         val xpToNextLevel = calculateXpToNextLevel(profile.level)
@@ -67,7 +78,7 @@ class ProfileFragment : Fragment() {
 
         binding.progressBarExperience.progress = progress
         binding.textViewExperience.text = getString(
-            R.string.xp_progress,
+            R.string.xp_to_next_level,
             profile.experience,
             xpToNextLevel
         )
@@ -87,10 +98,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.textViewBestStreak.text = getString(R.string.x_days, bestStreak)
-
-        // Set achievements - this would come from an AchievementViewModel in a complete implementation
-        binding.textViewAchievementsUnlocked.text = "0/10" // Placeholder
+        binding.textViewBestStreak.text = getString(R.string.days_format, bestStreak)
     }
 
     private fun calculateXpToNextLevel(level: Int): Int {

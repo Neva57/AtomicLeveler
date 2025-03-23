@@ -41,7 +41,7 @@ class AchievementAdapter(
             descriptionTextView.text = achievement.description
 
             // Set XP reward
-            xpTextView.text = itemView.context.getString(R.string.xp_points, achievement.experiencePoints)
+            xpTextView.text = itemView.context.getString(R.string.xp_format, achievement.experiencePoints)
 
             // Adjust UI based on unlock status
             if (achievement.isUnlocked) {

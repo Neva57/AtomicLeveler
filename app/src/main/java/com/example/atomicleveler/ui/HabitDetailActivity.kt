@@ -2,7 +2,6 @@ package com.example.atomicleveler.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.atomicleveler.R
@@ -47,6 +46,7 @@ class HabitDetailActivity : AppCompatActivity() {
         } else {
             // We're creating a new habit
             supportActionBar?.title = getString(R.string.new_habit)
+            binding.buttonDeleteHabit.visibility = View.GONE
         }
 
         // Set up button click listeners
@@ -63,8 +63,8 @@ class HabitDetailActivity : AppCompatActivity() {
 
                 // Set frequency radio button
                 when (it.frequency) {
-                    HabitFrequency.DAILY -> binding.radioButtonDaily.isChecked = true
-                    HabitFrequency.WEEKLY -> binding.radioButtonWeekly.isChecked = true
+                    "DAILY" -> binding.radioButtonDaily.isChecked = true
+                    "WEEKLY" -> binding.radioButtonWeekly.isChecked = true
                     else -> binding.radioButtonDaily.isChecked = true
                 }
             }
@@ -97,32 +97,33 @@ class HabitDetailActivity : AppCompatActivity() {
 
         // Get selected frequency
         val frequency = when {
-            binding.radioButtonDaily.isChecked -> HabitFrequency.DAILY
-            binding.radioButtonWeekly.isChecked -> HabitFrequency.WEEKLY
-            else -> HabitFrequency.DAILY
+            binding.radioButtonDaily.isChecked -> "DAILY"
+            binding.radioButtonWeekly.isChecked -> "WEEKLY"
+            else -> "DAILY"
         }
 
-        // Create habit object
-        val habit = if (isEditMode) {
-            Habit(
-                id = habitId,
-                title = title,
-                description = description,
-                frequency = frequency
-            )
-        } else {
-            Habit(
-                title = title,
-                description = description,
-                frequency = frequency
-            )
-        }
-
-        // Save habit
         if (isEditMode) {
-            habitViewModel.update(habit)
+            // Get the current habit and update its properties
+            habitViewModel.allHabits.value?.find { it.id == habitId }?.let { currentHabit ->
+                val updatedHabit = currentHabit.copy(
+                    title = title,
+                    description = description,
+                    frequency = frequency.toString()
+                )
+                habitViewModel.update(updatedHabit)
+            }
         } else {
-            habitViewModel.insert(habit)
+            // Create a new habit
+            val newHabit = Habit(
+                title = title,
+                description = description,
+                frequency = frequency,
+                createdDate = System.currentTimeMillis(),
+                completionDatesStr = "", // Changed from completionDates to completionDatesStr
+                currentStreak = 0,
+                bestStreak = 0
+            )
+            habitViewModel.insert(newHabit)
         }
 
         // Close activity

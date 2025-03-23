@@ -19,32 +19,45 @@
     <string name="save_habit">Save Habit</string>
     <string name="delete_habit">Delete Habit</string>
     <string name="complete">Complete</string>
-    <string name="streak_format">Streak: %d days</string>
+    <string name="completed">Completed</string>
+    <string name="streak_days">Streak: %d days</string>
+    <string name="streak_weeks">Streak: %d weeks</string>
     <string name="no_habits_yet">You haven\'t created any habits yet.\nTap the + button to get started!</string>
     <string name="habit_completed">Habit Completed!</string>
     <string name="habit_completion_message">Great job completing \"%s\"! Keep up the good work.</string>
     <string name="delete_habit_confirmation">Are you sure you want to delete this habit? This action cannot be undone.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="confirm_delete_message">Are you sure you want to delete this habit?</string>
+    <string name="error_empty_title">Habit name cannot be empty</string>
+    <string name="edit_habit">Edit Habit</string>
+    <string name="new_habit">New Habit</string>
 
     <!-- Achievements -->
     <string name="your_achievements">Your Achievements</string>
     <string name="achievement_icon">Achievement Icon</string>
     <string name="xp_format">+%d XP</string>
+    <string name="xp_points">+%d XP</string>
     <string name="achievement_unlocked">Achievement Unlocked!</string>
 
     <!-- Profile -->
     <string name="profile_avatar">Profile Avatar</string>
     <string name="level_format">Level %d</string>
+    <string name="level_x">Level %d</string>
     <string name="xp_to_next_level">%d/%d XP to next level</string>
+    <string name="xp_progress">%d/%d XP to next level</string>
     <string name="stats">Stats</string>
     <string name="total_habits">Total Habits</string>
     <string name="total_completions">Total Completions</string>
     <string name="best_streak">Best Streak</string>
     <string name="achievements_unlocked">Achievements Unlocked</string>
     <string name="days_format">%d days</string>
+    <string name="x_days">%d days</string>
     <string name="achievements_count_format">%d/%d</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="edit_your_profile">Edit Your Profile</string>
+    <string name="save">Save</string>
 
     <!-- Level Up -->
     <string name="level_up">Level Up</string>

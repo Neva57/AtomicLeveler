@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.atomicleveler.R
 import com.example.atomicleveler.data.models.Habit
 import com.example.atomicleveler.data.models.HabitFrequency
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HabitAdapter(
@@ -47,8 +46,8 @@ class HabitAdapter(
 
             // Set streak text
             val streakText = when (habit.frequency) {
-                HabitFrequency.DAILY -> itemView.context.getString(R.string.streak_days, habit.currentStreak)
-                HabitFrequency.WEEKLY -> itemView.context.getString(R.string.streak_weeks, habit.currentStreak)
+                "DAILY" -> itemView.context.getString(R.string.streak_days, habit.currentStreak)
+                "WEEKLY" -> itemView.context.getString(R.string.streak_weeks, habit.currentStreak)
                 else -> itemView.context.getString(R.string.streak_days, habit.currentStreak)
             }
             streakTextView.text = streakText

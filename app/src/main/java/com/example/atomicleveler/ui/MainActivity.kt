@@ -1,5 +1,16 @@
 package com.example.atomicleveler.ui
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.atomicleveler.R
+import com.example.atomicleveler.databinding.ActivityMainBinding
+import com.example.atomicleveler.ui.fragments.AchievementsFragment
+import com.example.atomicleveler.ui.fragments.HabitListFragment
+import com.example.atomicleveler.ui.fragments.ProfileFragment
+import com.example.atomicleveler.ui.viewmodels.HabitViewModel
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var habitViewModel: HabitViewModel

@@ -1,13 +1,42 @@
 package com.example.atomicleveler.ui.viewmodels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.atomicleveler.data.achievements.AchievementManager
+import com.example.atomicleveler.data.database.AppDatabase
+import com.example.atomicleveler.data.models.Habit
+import com.example.atomicleveler.data.models.HabitFrequency
+import com.example.atomicleveler.data.models.UserProfile
+import com.example.atomicleveler.data.repository.AchievementRepository
+import com.example.atomicleveler.data.repository.HabitRepository
+import com.example.atomicleveler.data.repository.UserProfileRepository
+import kotlinx.coroutines.launch
+import java.util.Calendar
+
 class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: HabitRepository
+    private val achievementRepository: AchievementRepository
+    private val userProfileRepository: UserProfileRepository
+    private lateinit var achievementManager: AchievementManager
+
     val allHabits: LiveData<List<Habit>>
 
     init {
-        val habitDao = AppDatabase.getDatabase(application).habitDao()
+        val database = AppDatabase.getDatabase(application)
+        val habitDao = database.habitDao()
         repository = HabitRepository(habitDao)
+        achievementRepository = AchievementRepository(database.achievementDao())
+        userProfileRepository = UserProfileRepository(database.userProfileDao())
         allHabits = repository.allHabits.asLiveData()
+
+        achievementManager = AchievementManager(
+            achievementRepository,
+            userProfileRepository,
+            viewModelScope
+        )
     }
 
     fun insert(habit: Habit) = viewModelScope.launch {
@@ -30,21 +59,41 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
 
-        val updatedCompletionDates = habit.completionDates + today
-        val updatedStreak = calculateStreak(updatedCompletionDates)
+        // Get the current completion dates and add today
+        val currentCompletionDates = habit.completionDatesStr.let {
+            if (it.isEmpty()) emptyList() else it.split(",").mapNotNull { date -> date.toLongOrNull() }
+        }
+        val updatedCompletionDates = currentCompletionDates + today
+
+        // Convert the list back to a comma-separated string
+        val updatedCompletionDatesStr = updatedCompletionDates.joinToString(",")
+
+        // Calculate streak using the list
+        val updatedStreak = calculateStreak(updatedCompletionDates, habit.frequency)
         val updatedBestStreak = maxOf(updatedStreak, habit.bestStreak)
 
         repository.update(habit.copy(
-            completionDates = updatedCompletionDates,
+            completionDatesStr = updatedCompletionDatesStr,
             currentStreak = updatedStreak,
             bestStreak = updatedBestStreak
         ))
     }
 
-    // This would be added to HabitViewModel.kt to replace the placeholder function
+    fun checkAchievements(habits: List<Habit>, userProfile: UserProfile) {
+        viewModelScope.launch {
+            achievementManager.checkHabitAchievements(habits, userProfile)
+        }
+    }
 
-    private fun calculateStreak(completionDates: List<Long>): Int {
+    private fun calculateStreak(completionDates: List<Long>, frequencyStr: String): Int {
         if (completionDates.isEmpty()) return 0
+
+        // Convert string to enum safely
+        val frequency = try {
+            HabitFrequency.valueOf(frequencyStr)
+        } catch (e: Exception) {
+            HabitFrequency.DAILY // Default to daily if conversion fails
+        }
 
         // Sort dates in ascending order
         val sortedDates = completionDates.sorted()
@@ -80,11 +129,16 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         var streak = 1 // Start with 1 for the most recent date
         var currentDate = mostRecentCalendar.clone() as Calendar
 
-        // Go backwards through the days
-        while (true) {
-            currentDate.add(Calendar.DAY_OF_YEAR, -1)
+        val interval = when (frequency) {
+            HabitFrequency.DAILY -> Calendar.DAY_OF_YEAR
+            HabitFrequency.WEEKLY -> Calendar.WEEK_OF_YEAR
+        }
 
-            // Check if we have a completion for the previous day
+        // Go backwards through the days/weeks
+        while (true) {
+            currentDate.add(interval, -1)
+
+            // Check if we have a completion for the previous day/week
             val previousDayMillis = currentDate.timeInMillis
             val hasPreviousDayCompletion = sortedDates.any { date ->
                 val cal = Calendar.getInstance().apply {
@@ -107,3 +161,4 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
 
         return streak
     }
+}

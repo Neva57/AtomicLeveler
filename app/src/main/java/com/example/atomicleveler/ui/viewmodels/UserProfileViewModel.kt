@@ -8,16 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.atomicleveler.data.database.AppDatabase
 import com.example.atomicleveler.data.models.UserProfile
 import com.example.atomicleveler.data.repository.UserProfileRepository
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.Dispatchers
+import com.example.atomicleveler.utils.Event
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class UserProfileViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: UserProfileRepository
     private val _userProfile = MutableLiveData<UserProfile>()
     val userProfile: LiveData<UserProfile> = _userProfile
+
+    // Event for level up
+    private val _levelUpEvent = MutableLiveData<Event<Int>>()
+    val levelUpEvent: LiveData<Event<Int>> = _levelUpEvent
 
     init {
         val userProfileDao = AppDatabase.getDatabase(application).userProfileDao()
@@ -33,7 +35,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
                 val id = repository.insert(defaultProfile)
                 _userProfile.value = defaultProfile.copy(id = id)
             } else {
-                _userProfile.value = profile
+                _userProfile.value = profile!!
             }
         }
     }
@@ -51,30 +53,36 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
 
     fun addExperience(xpAmount: Int) {
         userProfile.value?.let { currentProfile ->
-            var xpToAdd = xpAmount
-            var newLevel = currentProfile.level
-            var newXp = currentProfile.experience + xpAmount
-
-            // Check if user has leveled up
+            val newXp = currentProfile.experience + xpAmount
             val xpForNextLevel = calculateXpForNextLevel(currentProfile.level)
 
             if (newXp >= xpForNextLevel) {
                 // Level up
-                newXp -= xpForNextLevel
-                newLevel++
+                val newLevel = currentProfile.level + 1
+                val remainingXp = newXp - xpForNextLevel
 
-                // Show level up dialog
-                showLevelUpDialog(newLevel)
-            }
+                val updatedProfile = currentProfile.copy(
+                    level = newLevel,
+                    experience = remainingXp
+                )
 
-            val updatedProfile = currentProfile.copy(
-                level = newLevel,
-                experience = newXp
-            )
+                viewModelScope.launch {
+                    repository.update(updatedProfile)
+                    _userProfile.value = updatedProfile
 
-            viewModelScope.launch {
-                repository.update(updatedProfile)
-                _userProfile.value = updatedProfile
+                    // Trigger level up event
+                    _levelUpEvent.value = Event(newLevel)
+                }
+            } else {
+                // Just add XP, no level up
+                val updatedProfile = currentProfile.copy(
+                    experience = newXp
+                )
+
+                viewModelScope.launch {
+                    repository.update(updatedProfile)
+                    _userProfile.value = updatedProfile
+                }
             }
         }
     }
@@ -95,11 +103,5 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     private fun calculateXpForNextLevel(currentLevel: Int): Int {
         // Simple formula: 100 * level
         return 100 * currentLevel
-    }
-
-    private fun showLevelUpDialog(newLevel: Int) {
-        // This would be implemented to show a level up dialog
-        // using a Material Dialog, but can't be done directly in ViewModel
-        // Would need to expose an event that the UI can observe
     }
 }
