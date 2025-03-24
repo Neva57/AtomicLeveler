@@ -28,7 +28,7 @@ class HabitDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Initialize ViewModel
-        habitViewModel = ViewModelProvider(this).get(HabitViewModel::class.java)
+        habitViewModel = ViewModelProvider(this)[HabitViewModel::class.java]
 
         // Check if we're editing an existing habit
         if (intent.hasExtra("HABIT_ID")) {
